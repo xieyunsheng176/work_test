@@ -152,4 +152,13 @@ class WorkTestApplicationTests {
         empService.save(emp);
 
     }
+    @Test
+    public void 测试getById() {
+        Emp emp = new Emp();
+        emp.setName("十日");
+        Emp byId = empService.getById(null);
+
+        System.out.println(byId);
+
+    }
 }
