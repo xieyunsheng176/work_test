@@ -6,7 +6,7 @@ import com.sunits.work_test.entity.Dept;
 import com.sunits.work_test.entity.Emp;
 import com.sunits.work_test.service.EmpService;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

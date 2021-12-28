@@ -79,18 +79,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sunits.work_test.config.FileException;
 import com.sunits.work_test.entity.Address;
 import com.sunits.work_test.entity.Dept;
 import com.sunits.work_test.entity.Emp;
 import com.sunits.work_test.service.EmpService;
+import com.sunits.work_test.service.impl.FileService;
 import com.sunits.work_test.utils.ExcelMergeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -100,6 +101,9 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,8 +126,10 @@ public class EmpController {
 
     @Resource
     private EmpService iEmpService;
+    @Resource
+    private FileService fileService;
 
-    @Value("${upload.url}")
+    @Value("${file.upload.uploadDir}")
     private String uploadUrl;
 
 
@@ -197,7 +203,9 @@ public class EmpController {
     }
     @PostMapping(value = "uploadFile")
     public  void uploadFile(@RequestParam("multipartFile")MultipartFile multipartFile,@RequestParam("userId")String userId,@RequestParam("userName")String userName) throws IOException {
-        String originalFilename = multipartFile.getOriginalFilename();
+        // Normalize file name
+        fileService.storeFile(multipartFile);
+        /*   String originalFilename = multipartFile.getOriginalFilename();
         String fileUrl = userId+"/"+userName+"/";
         // 新的文件名，使用uuid生成文件名
         String basePath = ResourceUtils.getURL("classpath:").getPath();
@@ -207,18 +215,26 @@ public class EmpController {
         if (!fileExist.exists()) {
             fileExist.mkdirs();
         }
-        //FileSizeLimitExceededException
 
         File file = new File(basePath+fileUrl, originalFilename);
         // 完成文件的上传
-        multipartFile.transferTo(file);
+        multipartFile.transferTo(file);*/
 
 
-        String path = ClassUtils.getDefaultClassLoader().getResource("").getPath() + uploadUrl;
-        File file2 = new File(path+fileUrl, originalFilename);
+
+
+       /* File file2 = new File(uploadUrl+fileUrl, originalFilename);
+        String uploadDir=ResourceUtils.getURL("classpath:").getPath()+uploadUrl+fileUrl;
+        System.out.println(uploadDir);
+        //如果目录不存在，自动创建文件夹
+        File dir = new File(uploadDir);
+        if(!dir.exists())
+        {
+            dir.mkdir();
+        }
         FileOutputStream fos = new FileOutputStream(file2);
         fos.write(multipartFile.getBytes());
-        fos.close();
+        fos.close();*/
     }
 
 

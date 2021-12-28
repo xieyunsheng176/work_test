@@ -43,8 +43,11 @@ spring:
       suffix: .jsp
   servlet:
     multipart:
+      enabled: true
       max-file-size: 100MB
       max-request-size: 100MB
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:static/upload/
 
 #指定端口号
 server:
@@ -79,5 +82,6 @@ mybatis-plus:
       field-strategy: NOT_EMPTY
       #数据库类型
       db-type: MYSQL
-upload:
-  url: static/upload/
+file:
+  upload:
+    uploadDir:  upload/
