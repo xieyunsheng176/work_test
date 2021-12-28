@@ -2,11 +2,13 @@ package com.sunits.work_test.service.impl;
 
 import com.sunits.work_test.config.FileException;
 import com.sunits.work_test.properties.FileProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +19,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-@Service
 public class FileService {
 
     @Value("${file.upload.uploadDir}")
@@ -28,9 +29,13 @@ public class FileService {
     @Autowired
     public FileService(FileProperties fileProperties) {
         String property = System.getProperty("user.dir");
-        this.fileStorageLocation = Paths.get(property+fileProperties.getUploadDir()).toAbsolutePath().normalize();
         try {
+            this.fileStorageLocation = Paths.get(ResourceUtils.getURL("classpath:").getPath() +fileProperties.getUploadDir()).toAbsolutePath().normalize();
             Files.createDirectories(this.fileStorageLocation);
+            /*String fileDir = ResourceUtils.getURL("classpath:").getPath() + "static/upload/" + (org.apache.commons.lang3.StringUtils.isNotBlank(uploadUrl) ? (uploadUrl + "/") : "");
+            log.info("文件上传地址",fileDir);
+            this.fileStorageLocation = Paths.get(fileDir).toAbsolutePath().normalize();
+            Files.createDirectories(this.fileStorageLocation);*/
         } catch (Exception ex) {
             throw new FileException("Could not create the directory where the uploaded files will be stored.", ex);
         }

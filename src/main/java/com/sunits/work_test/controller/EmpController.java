@@ -107,6 +107,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -126,8 +127,6 @@ public class EmpController {
 
     @Resource
     private EmpService iEmpService;
-    @Resource
-    private FileService fileService;
 
     @Value("${file.upload.uploadDir}")
     private String uploadUrl;
@@ -204,7 +203,10 @@ public class EmpController {
     @PostMapping(value = "uploadFile")
     public  void uploadFile(@RequestParam("multipartFile")MultipartFile multipartFile,@RequestParam("userId")String userId,@RequestParam("userName")String userName) throws IOException {
         // Normalize file name
-        fileService.storeFile(multipartFile);
+      /*  String originalFilename = multipartFile.getOriginalFilename();
+        String fileSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+        // uuid 生成文件名
+        String uuid = String.valueOf(UUID.randomUUID());*/
         /*   String originalFilename = multipartFile.getOriginalFilename();
         String fileUrl = userId+"/"+userName+"/";
         // 新的文件名，使用uuid生成文件名
