@@ -84,9 +84,11 @@ import com.sunits.work_test.config.FileException;
 import com.sunits.work_test.entity.Address;
 import com.sunits.work_test.entity.Dept;
 import com.sunits.work_test.entity.Emp;
+import com.sunits.work_test.properties.FileProperties;
 import com.sunits.work_test.service.EmpService;
 import com.sunits.work_test.service.impl.FileService;
 import com.sunits.work_test.utils.ExcelMergeUtil;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ClassUtils;
@@ -130,6 +132,9 @@ public class EmpController {
 
     @Value("${file.upload.uploadDir}")
     private String uploadUrl;
+
+    @Autowired
+    private FileProperties fileProperties;
 
 
     @RequestMapping(value="/getEmp", method= RequestMethod.GET)
@@ -203,11 +208,10 @@ public class EmpController {
     @PostMapping(value = "uploadFile")
     public  void uploadFile(@RequestParam("multipartFile")MultipartFile multipartFile,@RequestParam("userId")String userId,@RequestParam("userName")String userName) throws IOException {
         // Normalize file name
-      /*  String originalFilename = multipartFile.getOriginalFilename();
+        String originalFilename = multipartFile.getOriginalFilename();
         String fileSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
         // uuid 生成文件名
-        String uuid = String.valueOf(UUID.randomUUID());*/
-        /*   String originalFilename = multipartFile.getOriginalFilename();
+        String uuid = String.valueOf(UUID.randomUUID());
         String fileUrl = userId+"/"+userName+"/";
         // 新的文件名，使用uuid生成文件名
         String basePath = ResourceUtils.getURL("classpath:").getPath();
@@ -218,9 +222,16 @@ public class EmpController {
             fileExist.mkdirs();
         }
 
+
+        //上传到
+        File file2 = new File( System.getProperty("user.dir")+fileProperties.getUploadDir()+fileUrl, originalFilename);
+        // 完成文件的上传
+        FileUtils.copyInputStreamToFile(multipartFile.getInputStream(),file2);
+
         File file = new File(basePath+fileUrl, originalFilename);
         // 完成文件的上传
-        multipartFile.transferTo(file);*/
+        multipartFile.transferTo(file);
+
 
 
 

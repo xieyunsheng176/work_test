@@ -84,4 +84,4 @@ mybatis-plus:
       db-type: MYSQL
 file:
   upload:
-    uploadDir:  src/main/resources/upload/
+    uploadDir:  /src/main/resources/upload/
