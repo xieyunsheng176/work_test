@@ -173,7 +173,23 @@
         </dependency>
     </dependencies>
 
+
     <build>
+        <!--这个玩意貌似现在没用，将来再说，先用代码处理-->
+       <!-- <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
