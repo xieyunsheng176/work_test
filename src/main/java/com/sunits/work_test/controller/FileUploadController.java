@@ -7,6 +7,8 @@ import com.sunits.work_test.properties.FileProperties;
 import com.sunits.work_test.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,8 @@ import java.util.UUID;
 @Slf4j
 @RequestMapping("fileUpload")
 public class FileUploadController {
+
+    private final static Logger logger = LoggerFactory.getLogger(FileUploadController.class);
 
     @Value("${file.upload.uploadDir}")
     private String uploadUrl;
@@ -107,21 +111,21 @@ public class FileUploadController {
                 fileDirVo.setFileDir(file.getParent());//文件目录
                 fileDirVo.setFile(file);
                 filesDirs.add(fileDirVo);
-                log.info("文件的name:{}",file.getName());
-                log.info("文件的parent:{}",file.getParent());
-                log.info("文件的path:{}",file.getPath());
-                log.info("文件的AbsoluteFile:{}",file.getAbsoluteFile());
-                log.info("文件的AbsolutePath:{}",file.getAbsolutePath());
+                logger.info("文件的name:{}",file.getName());
+                logger.info("文件的parent:{}",file.getParent());
+                logger.info("文件的path:{}",file.getPath());
+                logger.info("文件的AbsoluteFile:{}",file.getAbsoluteFile());
+                logger.info("文件的AbsolutePath:{}",file.getAbsolutePath());
                 try {
-                    log.info("文件的CanonicalFile:{}",file.getCanonicalFile().getName());
+                    logger.info("文件的CanonicalFile:{}",file.getCanonicalFile().getName());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                log.info("文件的FreeSpace:{}",file.getFreeSpace());
-                log.info("文件的ParentFile:{}",file.getParentFile());
-                log.info("文件的TotalSpace:{}",file.getTotalSpace());
-                log.info("文件的UsableSpace:{}",file.getUsableSpace());
-                log.info("--------------------------------");
+                logger.info("文件的FreeSpace:{}",file.getFreeSpace());
+                logger.info("文件的ParentFile:{}",file.getParentFile());
+                logger.info("文件的TotalSpace:{}",file.getTotalSpace());
+                logger.info("文件的UsableSpace:{}",file.getUsableSpace());
+                logger.info("--------------------------------");
             }else if(file.isDirectory()){//如果是文件夹
                 fileDirVo.setFileDir(file.getPath());//完整路径
                 fileDirVo.setFileName(file.getName()); //文件名
