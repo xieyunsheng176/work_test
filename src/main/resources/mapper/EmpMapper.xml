@@ -2,4 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunits.work_test.mapper.EmpMapper">
 
+    <select id="getEmpGroupByDate" resultType="java.util.Map">
+        SELECT
+        create_date,
+        COALESCE (COUNT(*), 0) as count
+        FROM
+        emp
+        where create_date &lt;= '2022-01-10' and create_date &gt;= '2021-10-31'
+        GROUP BY
+        create_date
+    </select>
 </mapper>

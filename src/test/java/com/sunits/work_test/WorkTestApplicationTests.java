@@ -6,11 +6,14 @@ import com.sunits.work_test.entity.Dept;
 import com.sunits.work_test.entity.Emp;
 import com.sunits.work_test.service.EmpService;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -160,5 +163,95 @@ class WorkTestApplicationTests {
 
         System.out.println(byId);
 
+    }
+    /**
+     * 从大到小
+     */
+    public List<LocalDate> getDescDateList(LocalDate startDate, LocalDate endDate) {
+        List<LocalDate> result = new ArrayList<>();
+        if(endDate.compareTo(startDate) < 0 ){
+            return  result;
+        }
+        while (true){
+            result.add(endDate);
+            if(endDate.compareTo(startDate) <= 0){
+                break;
+            }
+            endDate= endDate.plusDays(-1);
+        }
+        return result;
+    }
+
+    /**
+     * 从小到大
+     */
+    public  List<LocalDateTime> getAscDateList(LocalDateTime startDate, LocalDateTime endDate) {
+        List<LocalDateTime> result = new ArrayList<>();
+        if(endDate.compareTo(startDate) < 0 ){
+            return  result;
+        }
+        while (true){
+            result.add(startDate);
+            if(startDate.compareTo(endDate) >= 0){
+                break;
+            }
+            startDate = startDate.plusDays(1);
+        }
+        return result;
+    }
+    @Test
+    public void getEmpGroupByDate() {
+
+        /*ocalDate startDate = LocalDate.parse("2021-10-31", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate endDate = LocalDate.parse("2022-01-10", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<Map<String, Object>>  map = empService.getEmpGroupByDate(startDate,endDate);
+        System.out.println(map);*/
+        /*//开始日期
+        LocalDate startDate = LocalDate.parse("2021-10-31", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        //结束日期
+        LocalDate endDate = LocalDate.parse("2022-01-10", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        //分组的数据
+        List listInfos = workBeachDao.findCalendar(begin,finish);
+        List listComments = workBeachDao.findCalendarC(begin,finish);
+        List listMails = workBeachDao.findCalendarM(begin,finish);
+        List listUsers = workBeachDao.findCalendarU(begin,finish);
+
+        //时间区间内的所有值
+        List<LocalDate> ascDateList = getAscDateList(startDate, endDate);
+        //根据时间区间所有值遍历
+        for (LocalDate localDate : ascDateList) {
+            Optional<Map<String, Object>> listInfos = listInfos.stream().filter(f -> localDate.equals(LocalDate.parse(f.get("createDate").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))).findAny();
+            Optional<Map<String, Object>> listComment = listComments.stream().filter(f -> localDate.equals(LocalDate.parse(f.get("createDate").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))).findAny();
+            Optional<Map<String, Object>> listMail = listMails.stream().filter(f -> localDate.equals(LocalDate.parse(f.get("createDate").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))).findAny();
+            Optional<Map<String, Object>> listUser = listUsers.stream().filter(f -> localDate.equals(LocalDate.parse(f.get("createDate").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))).findAny();
+            //不存在该日期则设置值为0
+            if (!listInfos.isPresent()){
+                Map<String,Object> hashMap = new HashMap();
+                hashMap.put("createDate",localDate);
+                hashMap.put("count",0);
+                listInfos.add(hashMap);
+            }
+            //不存在该日期则设置值为0
+            if (!listComment.isPresent()){
+                Map<String,Object> hashMap = new HashMap();
+                hashMap.put("createDate",localDate);
+                hashMap.put("count",0);
+                listComments.add(hashMap);
+            }
+            //不存在该日期则设置值为0
+            if (!listMail.isPresent()){
+                Map<String,Object> hashMap = new HashMap();
+                hashMap.put("createDate",localDate);
+                hashMap.put("count",0);
+                listMails.add(hashMap);
+            }
+            //不存在该日期则设置值为0
+            if (!listUser.isPresent()){
+                Map<String,Object> hashMap = new HashMap();
+                hashMap.put("createDate",localDate);
+                hashMap.put("count",0);
+                listUsers.add(hashMap);
+            }
+        }*/
     }
 }

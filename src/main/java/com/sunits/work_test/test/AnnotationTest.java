@@ -2,8 +2,17 @@ package com.sunits.work_test.test;
 
 import com.sunits.work_test.annotation.Info;
 import com.sunits.work_test.entity.Person;
+import com.sunits.work_test.service.EmpService;
+import org.apache.commons.collections4.MapUtils;
+import org.junit.jupiter.api.Test;
 
+import javax.annotation.Resource;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 public class AnnotationTest {
     public static void main1(String[] args) {
@@ -71,5 +80,60 @@ public class AnnotationTest {
         }{
             System.out.println("aaa");
         }
+    }
+
+    /**
+     * 从大到小
+     */
+    public List<LocalDate> getDescDateList(LocalDate startDate, LocalDate endDate) {
+        List<LocalDate> result = new ArrayList<>();
+        if(endDate.compareTo(startDate) < 0 ){
+            return  result;
+        }
+        while (true){
+            result.add(endDate);
+            if(endDate.compareTo(startDate) <= 0){
+                break;
+            }
+            endDate= endDate.plusDays(-1);
+        }
+        return result;
+    }
+
+    /**
+     * 从小到大
+     */
+    public  List<LocalDate> getAscDateList(LocalDate startDate,LocalDate endDate) {
+        List<LocalDate> result = new ArrayList<>();
+        if(endDate.compareTo(startDate) < 0 ){
+            return  result;
+        }
+        while (true){
+            result.add(startDate);
+            if(startDate.compareTo(endDate) >= 0){
+                break;
+            }
+            startDate = startDate.plusDays(1);
+        }
+        return result;
+    }
+    @Resource
+    private EmpService empService;
+    @Test
+    public void getEmpGroupByDate() {
+        LocalDate startDate = LocalDate.parse("2021-10-31", DateTimeFormatter.ofPattern("yyyy-MM-dd")).;
+
+        List<Map<String,Object>> aaa = new ArrayList<>();
+        Map<String,Object> bb = new HashMap<>();
+        bb.put("date","2021-10-12");
+        Map<String,Object> cc = new HashMap<>();
+        cc.put("date","2021-10-11");
+        aaa.add(bb);
+        aaa.add(cc);
+        List<Map<String,Object>> collect = aaa.stream().sorted(Comparator.comparing(f-> MapUtils.getString(f,"date"))).collect(toList());
+        System.out.println(collect);
+      /*  LocalDate startDate = LocalDate.parse("2021-10-31", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate endDate = LocalDate.parse("2022-01-10", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<Map<String, Object>>  map = empService.getEmpGroupByDate(startDate,endDate);*/
     }
 }

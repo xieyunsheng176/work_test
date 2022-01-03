@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,5 +29,10 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements EmpSe
     @Override
     public IPage<Emp> selectPage(IPage<Emp> pageInfo, QueryWrapper<Emp> empQueryWrapper) {
         return empMapper.selectPage(pageInfo,empQueryWrapper);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpGroupByDate(LocalDate startDate, LocalDate endDate) {
+        return empMapper.getEmpGroupByDate(startDate,endDate);
     }
 }
