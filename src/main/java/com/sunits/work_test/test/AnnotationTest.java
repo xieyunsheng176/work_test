@@ -2,6 +2,8 @@ package com.sunits.work_test.test;
 
 import com.sunits.work_test.annotation.Info;
 import com.sunits.work_test.entity.Person;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 import com.sunits.work_test.service.EmpService;
 import org.apache.commons.collections4.MapUtils;
 import org.junit.jupiter.api.Test;
@@ -9,7 +11,11 @@ import org.junit.jupiter.api.Test;
 import javax.annotation.Resource;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -66,6 +72,31 @@ public class AnnotationTest {
     }
 
     public static void main(String[] args) {
+        Integer aaa= null;
+        System.out.println(aaa);
+        System.out.println(LocalDateTime.parse("2021-12-08 06:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss:mm")));
+        List<Long> longs = new ArrayList<>();
+        longs.add(10L);
+        longs.add(11L);
+        longs.add(12L);
+        List<Long> longs2 = new ArrayList<>();
+        longs2.add(11L);
+        boolean b = longs.retainAll(longs2);
+        System.out.println(longs);
+    }
+    @Test
+    public void main() {
+        Integer aaa= null;
+        System.out.println(aaa);
+        System.out.println(LocalDateTime.parse("2021-12-08 06:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss:mm")));
+        Long[] longs = {10L,11L,12L};
+        List<Long> longs2 = new ArrayList<>();
+        longs2.add(11L);
+        longs2.add(12L);
+        List<Long> longs1 = Arrays.asList(longs);
+
+        boolean b = longs1.retainAll(longs2);
+        System.out.println(longs);
         /*String filePath = "F:\\2021QGLOUFENG-R-TW\\2021年全国楼凤信息合集（附带联系方式）R\\安徽省";
         File file = new File(filePath);
         File[] fileArray= file.listFiles();
