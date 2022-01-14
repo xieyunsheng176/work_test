@@ -152,7 +152,7 @@ public class AnnotationTest {
     private EmpService empService;
     @Test
     public void getEmpGroupByDate() {
-        LocalDate startDate = LocalDate.parse("2021-10-31", DateTimeFormatter.ofPattern("yyyy-MM-dd")).;
+        LocalDate startDate = LocalDate.parse("2021-10-31", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         List<Map<String,Object>> aaa = new ArrayList<>();
         Map<String,Object> bb = new HashMap<>();
