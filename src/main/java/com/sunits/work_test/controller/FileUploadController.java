@@ -21,7 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * @projectName: work_test
@@ -86,19 +89,20 @@ public class FileUploadController {
     }
 
     @GetMapping("getFiles")
-    public R<List<FileDirVo>> getFiles(@RequestParam("userId")String userId, @RequestParam("userName")String userName) {
+    public R<Map<String, List<FileDirVo>>> getFiles(@RequestParam("userId")String userId, @RequestParam("userName")String userName) {
         List<FileDirVo> filesDirs = new ArrayList<>();
         // 检查文件夹是否存在
         String fileUrl = userId+"_"+userName+"/";
         File file = new File(System.getProperty("user.dir")+fileProperties.getUploadDir()+fileUrl);
         if (file.exists()){
-            filesDirs = getFile(System.getProperty("user.dir") + fileProperties.getUploadDir() + fileUrl);
+            filesDirs = getFile(System.getProperty("user.dir") + fileProperties.getUploadDir() + fileUrl,filesDirs);
         }
-        return R.ok("成功获取到对象",filesDirs);
+        Map<String, List<FileDirVo>> collect = filesDirs.stream().collect(groupingBy(FileDirVo::getFileDir));
+        return R.ok("成功获取到对象",collect);
     }
 
-    private List<FileDirVo> getFile(String path) {
-        List<FileDirVo> filesDirs = new ArrayList<>();
+    private List<FileDirVo> getFile(String path, List<FileDirVo> filesDirs) {
+        log.info("这一次路径：{}",path);
         // 获得指定文件对象
         File userFile = new File(path);
         // 获得该文件夹内的所有文件
@@ -111,7 +115,7 @@ public class FileUploadController {
                 fileDirVo.setFileDir(file.getParent());//文件目录
                 fileDirVo.setFile(file);
                 filesDirs.add(fileDirVo);
-                logger.info("文件的name:{}",file.getName());
+/*                logger.info("文件的name:{}",file.getName());
                 logger.info("文件的parent:{}",file.getParent());
                 logger.info("文件的path:{}",file.getPath());
                 logger.info("文件的AbsoluteFile:{}",file.getAbsoluteFile());
@@ -124,13 +128,13 @@ public class FileUploadController {
                 logger.info("文件的FreeSpace:{}",file.getFreeSpace());
                 logger.info("文件的ParentFile:{}",file.getParentFile());
                 logger.info("文件的TotalSpace:{}",file.getTotalSpace());
-                logger.info("文件的UsableSpace:{}",file.getUsableSpace());
+                logger.info("文件的UsableSpace:{}",file.getUsableSpace());*/
                 logger.info("--------------------------------");
             }else if(file.isDirectory()){//如果是文件夹
                 fileDirVo.setFileDir(file.getPath());//完整路径
                 fileDirVo.setFileName(file.getName()); //文件名
                 filesDirs.add(fileDirVo);
-                getFile(file.getPath());
+                getFile(file.getPath(),filesDirs);
             }
         }
         /*for(int i=0;i<array.length;i++){
