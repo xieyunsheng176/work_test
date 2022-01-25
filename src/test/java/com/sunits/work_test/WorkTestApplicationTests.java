@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 
 import com.sunits.work_test.entity.Dept;
 import com.sunits.work_test.entity.Emp;
+import com.sunits.work_test.mapper.EmpMapper;
 import com.sunits.work_test.service.EmpService;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,8 @@ class WorkTestApplicationTests {
 
     @Autowired
     private EmpService empService;
+    @Autowired
+    private EmpMapper empMapper;
     @Test
     void contextLoads() {
     }
@@ -253,5 +256,13 @@ class WorkTestApplicationTests {
                 listUsers.add(hashMap);
             }
         }*/
+    }
+    @Test
+    public void 测试使用update去Remove() {
+        Emp emp = new Emp();
+        emp.setId("1");
+        emp.setDeleted("1");
+        empService.updateById(emp);
+        empMapper.updateById(emp);
     }
 }
