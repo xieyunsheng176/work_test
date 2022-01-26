@@ -261,8 +261,12 @@ class WorkTestApplicationTests {
     public void 测试使用update去Remove() {
         Emp emp = new Emp();
         emp.setId("1");
+        emp.setCode("1");
         emp.setDeleted("1");
         empService.updateById(emp);
         empMapper.updateById(emp);
+        empMapper.update(emp,Wrappers.<Emp>lambdaUpdate()
+                .eq(Emp::getId,emp.getId())
+                .set(Emp::getDeleted,emp.getDeleted()));
     }
 }
