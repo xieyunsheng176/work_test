@@ -199,6 +199,10 @@ public class EmpController {
 
         return collect;
     }
+        @RequestMapping("paramBoolean")
+    public void main(@RequestParam("flag") Boolean flag ) {
+        System.out.println(flag);
+    }
 }
 
 
