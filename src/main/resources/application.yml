@@ -29,12 +29,18 @@ spring:
     host: smtp.qq.com
     username: 941193267@qq.com #发送邮箱
     password: sbmsiwajapbfbbji #邮箱密钥
+    properties:
+      mail.debug: false
+      mail.smtp.auth: true
   boot:
     admin:
       notify:
         mail:
           from: 941193267@qq.com #发送邮箱
-          to: m17611476835@163.com  #接受邮箱
+#          ignore-changes: UNKNOWN:UP
+          to: 2545229266@qq.com  #接受邮箱
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
 
   #返回json的全局时间格式
   jackson:
@@ -42,9 +48,9 @@ spring:
     time-zone: GMT+8
   #配置redis
   redis:
-    host: 188.1.1.21
+    host: 127.0.0.1
     port: 6379
-    password: ccxi-test
+    password:
     database: 0
     ssl: false
   mvc:
