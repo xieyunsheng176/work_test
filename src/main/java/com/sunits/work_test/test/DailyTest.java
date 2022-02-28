@@ -15,10 +15,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DailyTest {
 
@@ -63,4 +61,28 @@ public class DailyTest {
       /*  String path= Objects.requireNonNull(Objects.requireNonNull(ClassUtils.getDefaultClassLoader()).getResource("static")).getPath();
         System.out.println("------------------------------------------------"+path);*/
     }
+    @Test
+    public void test() {
+        LocalDate checkDate = LocalDate.parse("2022-01-23", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        boolean before = checkDate.plusDays(31).isBefore(LocalDate.now());
+        System.out.println(before);
+        Integer model = 1;
+        List<Long> deptIds = new ArrayList<>();
+        deptIds.add(100L);
+        deptIds.add(200L);
+        Long deptId = 300L;
+        if (deptIds.contains(deptId) || model == 1){{
+            System.out.println("进来了");
+        }}
+        String aaa = "其他资料/重大事件说明函数.doc";
+        StringBuilder originName = new StringBuilder(aaa);
+        System.out.println(originName.substring(originName.lastIndexOf("/") + 1));
+        Map<String, Long>  mapResult = new HashMap<>();
+        mapResult.put("132",900L);
+        Collection<Long> values = mapResult.values();
+        List<Long> collect = values.stream().collect(Collectors.toList());
+        System.out.println(values);
+    }
+
+
 }
