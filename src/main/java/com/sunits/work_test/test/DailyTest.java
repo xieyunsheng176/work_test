@@ -83,6 +83,13 @@ public class DailyTest {
         List<Long> collect = values.stream().collect(Collectors.toList());
         System.out.println(values);
     }
+    @Test
+    public void test2() {
 
+        boolean isLeader = true;
+        boolean isProjectTrack = false;
+        System.out.println(!isLeader || isProjectTrack);
+
+    }
 
 }
