@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding : true
   #mysql数据库连接
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver

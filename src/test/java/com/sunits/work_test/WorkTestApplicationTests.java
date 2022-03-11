@@ -9,7 +9,12 @@ import com.sunits.work_test.service.EmpService;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
@@ -17,6 +22,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @SpringBootTest
 class WorkTestApplicationTests {
@@ -38,7 +46,7 @@ class WorkTestApplicationTests {
                 //如果map存在则对他进行拼接，说明这个code重复了
                 if (map.containsKey(deptList.get(i).getId())){
                     String id = deptList.get(i).getId();
-                    List<Emp> collect = empList.stream().filter(f -> !f.getCode().equals(id)).collect(Collectors.toList());
+                    List<Emp> collect = empList.stream().filter(f -> !f.getCode().equals(id)).collect(toList());
                     Emp excel = new Emp();
                     //获取map对象里面的value，拼接进去
                     excel.setCode(map.get(deptList.get(i).getId())+","+ dto.getCode());
@@ -148,7 +156,11 @@ class WorkTestApplicationTests {
     @Test
     public void 测试OrderModifyTime() {
         List<Emp> list = empService.list();
-        List<Emp> collect = list.stream().sorted(Comparator.comparing(Emp::getGmtCreate)).collect(Collectors.toList());
+        List<Emp> collect = list.stream().sorted(Comparator.comparing(Emp::getGmtCreate)).collect(toList());
+        LinkedHashMap<String, List<Emp>> collect1 = list.stream().collect(groupingBy(Emp::getCode, LinkedHashMap::new, toList()));
+        Map<String, List<Emp>> collect2 = list.stream().collect(groupingBy(Emp::getCode));
+        System.out.println(collect2);
+        System.out.println(collect1);
         System.out.println(collect);
     }
     @Test
