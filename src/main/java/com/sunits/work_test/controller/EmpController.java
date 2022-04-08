@@ -70,6 +70,8 @@ public class EmpController {
 package com.sunits.work_test.controller;
 
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.support.ExcelTypeEnum;
@@ -88,9 +90,12 @@ import com.sunits.work_test.properties.FileProperties;
 import com.sunits.work_test.service.EmpService;
 import com.sunits.work_test.service.impl.FileService;
 import com.sunits.work_test.utils.ExcelMergeUtil;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
@@ -202,6 +207,23 @@ public class EmpController {
         @RequestMapping("paramBoolean")
     public void main(@RequestParam("flag") Boolean flag ) {
         System.out.println(flag);
+    }
+    @PostMapping("export")
+    @ApiOperation("人员导出")
+    public void export(HttpServletResponse response)throws Exception {
+        Page<Emp> pageInfo = new Page<>(0,100);
+        QueryWrapper<Emp> empQueryWrapper  = new QueryWrapper<>();
+        IPage<Emp> pages =  iEmpService.selectPage(pageInfo,empQueryWrapper);
+        List<Emp> records = pages.getRecords();
+        try {
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("", "结果"), Emp.class, records);
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("结果.xlsx", "utf-8"));
+            response.flushBuffer();
+            workbook.write(response.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        };
     }
 }
 
