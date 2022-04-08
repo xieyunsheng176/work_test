@@ -1,5 +1,6 @@
 package com.sunits.work_test.controller;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +23,6 @@ public class RedisController {
     @PostMapping
     public void testRedis(){
         stringRedisTemplate.boundSetOps("a").add("121","111");
+        stringRedisTemplate.boundHashOps("hashKey").put("k1","v1");
     }
 }
