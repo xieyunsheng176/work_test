@@ -179,6 +179,12 @@ class WorkTestApplicationTests {
         System.out.println(byId);
 
     }
+    @Test
+    public void 测试获取所有() {
+        List<Emp> byId = empService.list(null);
+        System.out.println(byId);
+
+    }
     /**
      * 从大到小
      */

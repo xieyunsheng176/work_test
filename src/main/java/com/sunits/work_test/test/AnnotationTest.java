@@ -166,5 +166,33 @@ public class AnnotationTest {
       /*  LocalDate startDate = LocalDate.parse("2021-10-31", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate endDate = LocalDate.parse("2022-01-10", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<Map<String, Object>>  map = empService.getEmpGroupByDate(startDate,endDate);*/
+
     }
+
+    @Test
+    public void getAscDateTime() {
+        LocalDateTime startDate = LocalDateTime.parse("2021-10-31 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        System.out.println(startDate);
+        LocalDateTime startDate2 = LocalDateTime.parse("2021-10-31 24:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        List<LocalDateTime> ascDateTime = getAscDateTime(startDate, startDate2);
+        System.out.println(ascDateTime);
+
+    }
+
+    public List<LocalDateTime> getAscDateTime(LocalDateTime startDate,LocalDateTime endDate) {
+        List<LocalDateTime> result = new ArrayList<>();
+        if(endDate.compareTo(startDate) < 0 ){
+            return  result;
+        }
+        while (true){
+            result.add(startDate);
+            if(startDate.compareTo(endDate) >= 0){
+                break;
+            }
+            startDate = startDate.plusHours(1);
+        }
+        return result;
+    }
+
 }

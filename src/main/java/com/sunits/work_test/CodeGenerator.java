@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
@@ -13,6 +12,7 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -58,8 +58,8 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:p6spy:mysql://localhost:3306/work_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai");
-        dsc.setDriverName("com.mysql.jdbc.Driver");
+        dsc.setUrl("jdbc:mysql://localhost:3306/tmp_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("root");
         dsc.setDbType(DbType.MYSQL);
@@ -90,9 +90,9 @@ public class CodeGenerator {
         ArrayList<TableFill> tableFills = new ArrayList<>();
         tableFills.add(gmt_create);
         tableFills.add(gmt_modiffied);
-        strategy.setTableFillList(tableFills);
-        strategy.setVersionFieldName("version");
-        strategy.setRestControllerStyle(true);
+//        strategy.setTableFillList(tableFills);
+//        strategy.setVersionFieldName("version");
+        strategy.setRestControllerStyle(false);
         strategy.setControllerMappingHyphenStyle(true);//localhost:8080/login_id_2;;//url中驼峰转连字符
         strategy.setTablePrefix(pc.getModuleName() + "_");//设置表前缀不生成
         mpg.setStrategy(strategy);
